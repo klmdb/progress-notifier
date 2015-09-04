@@ -1,0 +1,23 @@
+{
+  "name": "progress-notifier",
+  "version": "0.1.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "./node_modules/.bin/mocha --reporter spec"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/klmdb/progress-notifier"
+  },
+  "author": "klmdb",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/klmdb/progress-notifier/issues"
+  },
+  "homepage": "https://github.com/klmdb/progress-notifier",
+  "devDependencies": {
+    "chai": "^3.2.0",
+    "mocha": "^2.3.0"
+  }
+}
