@@ -1,7 +1,6 @@
-progress-notifier
-=========
+# progress-notifier
 
-Small progress notifier. Set numTicks
+Small hierarchical progress notifier.
 
 ## Installation
 
@@ -9,22 +8,19 @@ Small progress notifier. Set numTicks
 
 ## Usage
 
-  var PN = require('progress-notifier');
 
+```javascript
+  var PN = require('progress-notifier');
 
   var child1Progress = PN();
   var child2Progress = PN();
-
-  child1Progress.setNumTicks(5);
-  child2Progress.setNumTicks(7);
-
   
   var mainProgress   = PN();
   mainProgress.addChild(child1Progress);
   mainProgress.addChild(child2Progress);
 
-
-
+  child1Progress.setNumTicks(5);
+  child2Progress.setNumTicks(7);
 
   child1Progress.tick();
   child1Progress.tick();
@@ -36,7 +32,8 @@ Small progress notifier. Set numTicks
   console.log('child1Progress = ', child1Progress.getProgress() );
   console.log('child2Progress = ', child2Progress.getProgress() );
   console.log('mainProgress   = ', mainProgress  .getProgress() );
-  
+
+```
 
 ## Tests
 
