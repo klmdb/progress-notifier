@@ -10,36 +10,36 @@ Small hierarchical progress notifier.
 
 
 ```javascript
-    var PN = require('progress-notifier');
+var PN = require('progress-notifier');
 
-    var child1Progress = PN();
-    var child2Progress = PN();
+var child1Progress = PN();
+var child2Progress = PN();
 
-    var mainProgress   = PN();
-    mainProgress.addChild(child1Progress);
-    mainProgress.addChild(child2Progress);
+var mainProgress   = PN();
+mainProgress.addChild(child1Progress);
+mainProgress.addChild(child2Progress);
 
-    child1Progress.setNumTicks(5);
-    child2Progress.setNumTicks(7);
+child1Progress.setNumTicks(5);
+child2Progress.setNumTicks(7);
 
-    var reportProgressFactory = function(notifierName){
-      return function(p){
+var reportProgressFactory = function(notifierName){
+  return function(p){
 
-        console.log(notifierName + ' : ' + (Math.round(p*100)) + ' %' );
-      };
-    };
-    child1Progress.onTick(reportProgressFactory('child1Progress'));
-    child2Progress.onTick(reportProgressFactory('child2Progress'));
-    mainProgress  .onTick(reportProgressFactory('mainProgress'));
+    console.log(notifierName + ' : ' + (Math.round(p*100)) + ' %' );
+  };
+};
+child1Progress.onTick(reportProgressFactory('child1Progress'));
+child2Progress.onTick(reportProgressFactory('child2Progress'));
+mainProgress  .onTick(reportProgressFactory('mainProgress'));
 
-    child1Progress.tick();
-    child1Progress.tick();
+child1Progress.tick();
+child1Progress.tick();
 
-    child2Progress.tick();
-    child2Progress.tick();
-    child2Progress.tick();
+child2Progress.tick();
+child2Progress.tick();
+child2Progress.tick();
 
-    mainProgress  .tick();
+mainProgress  .tick();
 
 ```
 
