@@ -4,40 +4,66 @@ Small hierarchical progress notifier.
 
 ## Installation
 
-  npm install progress-notifier --save
+    npm install progress-notifier --save
 
 ## Usage
 
 
 ```javascript
-  var PN = require('progress-notifier');
+    var PN = require('progress-notifier');
 
-  var child1Progress = PN();
-  var child2Progress = PN();
-  
-  var mainProgress   = PN();
-  mainProgress.addChild(child1Progress);
-  mainProgress.addChild(child2Progress);
+    var child1Progress = PN();
+    var child2Progress = PN();
 
-  child1Progress.setNumTicks(5);
-  child2Progress.setNumTicks(7);
+    var mainProgress   = PN();
+    mainProgress.addChild(child1Progress);
+    mainProgress.addChild(child2Progress);
 
-  child1Progress.tick();
-  child1Progress.tick();
+    child1Progress.setNumTicks(5);
+    child2Progress.setNumTicks(7);
 
-  child2Progress.tick();
-  child2Progress.tick();
-  child2Progress.tick();
+    var reportProgressFactory = function(notifierName){
+      return function(p){
 
-  console.log('child1Progress = ', child1Progress.getProgress() );
-  console.log('child2Progress = ', child2Progress.getProgress() );
-  console.log('mainProgress   = ', mainProgress  .getProgress() );
+        console.log(notifierName + ' : ' + (Math.round(p*100)) + ' %' );
+      };
+    };
+    child1Progress.onTick(reportProgressFactory('child1Progress'));
+    child2Progress.onTick(reportProgressFactory('child2Progress'));
+    mainProgress  .onTick(reportProgressFactory('mainProgress'));
+
+    child1Progress.tick();
+    child1Progress.tick();
+
+    child2Progress.tick();
+    child2Progress.tick();
+    child2Progress.tick();
+
+    mainProgress  .tick();
 
 ```
 
+## API
+
+    getProgress()
+    getTicks()
+    getNumTicks()
+
+    setNumTicks(n)
+    addNumTicks(n)
+
+    tick()
+
+    addChild   (ProgressNotifier)
+    removeChild(ProgressNotifier)
+
+    onTick (f)
+    offTick(f)
+
+
 ## Tests
 
-  npm test
+    npm test
 
 ## Contributing
 
