@@ -52,22 +52,23 @@
 
             priv.numTicks = numTicks;
 
-            priv.fireTick();
+            publ.fireTick();
         };
 
         publ.addNumTicks = function(c){
 
             priv.numTicks += c;
 
-            priv.fireTick();
+            publ.fireTick();
         };
 
         publ.tick        = function(){
 
             priv.ticks++;
 
-            priv.fireTick();
+            publ.fireTick();
         };
+
 
         publ.addChild    = function(progressNotifier){
 
@@ -78,27 +79,43 @@
                 }
             }
             priv.children.push(progressNotifier);
+            progressNotifier.setParent(publ);
 
-            priv.fireTick();
+            publ.fireTick();
         };
         publ.removeChild    = function(progressNotifier){
 
             var i;
             for(i=0;i<priv.children.length;i++){
                 if(priv.children[i] === progressNotifier){
+
+                    progressNotifier.unsetParent();
                     priv.children.splice(i,1);
                     break;
                 }
             }
 
-            priv.fireTick();
+            publ.fireTick();
+        };
+        publ.setParent = function(progressNotifier){
+
+            priv.parent = progressNotifier;
+        };
+        publ.unsetParent = function(){
+
+            priv.parent = undefined;
         };
 
-        priv.fireTick = function(){
+
+        publ.fireTick = function(){
 
             var i, p = publ.getProgress();
             for(i=0;i<priv.listeners.length;i++){
                 priv.listeners[i](p);
+            }
+
+            if(priv.parent){
+                priv.parent.fireTick();
             }
         };
         publ.onTick = function(f){
