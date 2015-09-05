@@ -4,9 +4,10 @@
     module.exports = function(){
 
         var priv = {
-                ticks    : 0,
-                numTicks : 1,
-                children : [],
+                ticks     : 0,
+                numTicks  : 1,
+                children  : [],
+                listeners : [],
             },
             publ = {};
 
@@ -50,21 +51,57 @@
         publ.setNumTicks = function(numTicks){
 
             priv.numTicks = numTicks;
+
+            priv.fireTick();
         };
 
         publ.addNumTicks = function(c){
 
             priv.numTicks += c;
+
+            priv.fireTick();
         };
 
         publ.tick        = function(){
 
             priv.ticks++;
+
+            priv.fireTick();
         };
 
         publ.addChild    = function(progressNotifier){
 
             priv.children.push(progressNotifier);
+
+            priv.fireTick();
+        };
+
+        priv.fireTick = function(){
+
+            var i, p = publ.getProgress();
+            for(i=0;i<priv.listeners.length;i++){
+                priv.listeners[i](p);
+            }
+        };
+        publ.onTick = function(f){
+
+            var i;
+            for(i=0;i<priv.listeners.length;i++){
+                if(priv.listeners[i] === f){
+                    return;
+                }
+            }
+            priv.listeners.push(f);
+        };
+        publ.offTick = function(f){
+
+            var i;
+            for(i=0;i<priv.listeners.length;i++){
+                if(priv.listeners[i] === f){
+                    priv.listeners.splice(i,1);
+                    return;
+                }
+            }
         };
 
         return publ;
