@@ -63,6 +63,57 @@ describe('ProgressNotifier', function() {
 		    	expect( pn.getNumTicks() ).to.equal(2);
 		  });
   	});
+	describe('#removeChild', function() {
+		  it('Removes a descendent ProgressNotifier', function() {
+
+				var pn  = ProgressNotifier();
+				var pn2 = ProgressNotifier();
+
+		  		pn.addChild(pn2);
+		  		pn.removeChild(pn2);
+
+		    	expect( pn.getNumTicks() ).to.equal(1);
+		  });
+  	});
+	describe('#onTick', function() {
+		  it('Adds a tick event listener', function() {
+
+		  		var a   = 0;
+
+				var pn  = ProgressNotifier();
+				
+				var f   = function(progress){
+
+					a = progress;
+				};
+
+		  		pn.onTick(f);
+
+		  		pn.tick();
+
+		    	expect( a ).to.equal(1);
+		  });
+  	});
+	describe('#offTick', function() {
+		  it('Removes a tick event listener', function() {
+
+		  		var a   = 0;
+
+				var pn  = ProgressNotifier();
+				
+				var f   = function(progress){
+
+					a = progress;
+				};
+
+		  		pn.onTick(f);
+		  		pn.offTick(f);
+
+		  		pn.tick();
+
+		    	expect( a ).to.equal(0);
+		  });
+  	});
 	describe('#getProgress', function() {
 		  it('Gets the global progress', function() {
 
