@@ -71,7 +71,25 @@
 
         publ.addChild    = function(progressNotifier){
 
+            var i;
+            for(i=0;i<priv.children.length;i++){
+                if(priv.children[i] === progressNotifier){
+                    return;
+                }
+            }
             priv.children.push(progressNotifier);
+
+            priv.fireTick();
+        };
+        publ.removeChild    = function(progressNotifier){
+
+            var i;
+            for(i=0;i<priv.children.length;i++){
+                if(priv.children[i] === progressNotifier){
+                    priv.children.splice(i,1);
+                    break;
+                }
+            }
 
             priv.fireTick();
         };
